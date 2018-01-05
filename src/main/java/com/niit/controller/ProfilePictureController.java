@@ -17,12 +17,12 @@ import com.niit.dao.ProfilePicDao;
 import com.niit.model.ErrorClasss;
 import com.niit.model.ProfilePicture;
 @Controller
-public class ProfilePictureController {
+public class ProfilePictureController{
 
 	@Autowired
 	private ProfilePicDao profilePicDao;
 @RequestMapping(value="/uploadprofilepic",method=RequestMethod.POST)
-	public ResponseEntity<?> uploadProfilePicture(@RequestParam CommonsMultipartFile image,HttpSession session){
+public ResponseEntity<?> uploadProfilePicture(@RequestParam CommonsMultipartFile image,HttpSession session){
 	String username=(String) session.getAttribute("username");
 	if(username==null)
 	{
@@ -32,8 +32,9 @@ public class ProfilePictureController {
 	ProfilePicture profilePicture=new ProfilePicture();
 	profilePicture.setImage(image.getBytes());
 	profilePicture.setUsername(username);
-profilePicDao.saveOrUpdateProfilePicture(profilePicture);
-return new ResponseEntity<ProfilePicture>(profilePicture,HttpStatus.OK);
+	
+	profilePicDao.saveOrUpdateProfilePicture(profilePicture);
+    return new ResponseEntity<ProfilePicture>(profilePicture,HttpStatus.OK);
 }
 
 @RequestMapping(value="/getimage/{username}",method=RequestMethod.GET)
@@ -48,5 +49,5 @@ public @ResponseBody byte[] getProfilePicture(@PathVariable String username,Http
 	else
 		return profilePicture.getImage();
 	
-}
+    }
 }
